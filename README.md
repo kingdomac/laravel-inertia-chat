@@ -51,4 +51,9 @@ npm run dev
 
 -   Login in different browsers under different users
 
--   ENJOY THE CHAT APP!
+<br />
+<br />
+
+ <h1 align="center">
+    ENJOY THE CHAT APP!
+</h1>
