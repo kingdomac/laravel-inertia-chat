@@ -143,10 +143,7 @@ const getMessages = async () => {
     const result = response.data;
 
     messages.value = result;
-    nextTick(() => {
-      messagesBoxPrivate.value.scrollTop =
-        messagesBoxPrivate.value?.scrollHeight;
-    });
+    scrollChatToBottom();
   } catch (error) {}
 };
 
@@ -183,10 +180,7 @@ onMounted(() => {
         isRead: event.isRead,
       };
       messages.value.push(response);
-      nextTick(() => {
-        messagesBoxPrivate.value.scrollTop =
-          messagesBoxPrivate.value?.scrollHeight;
-      });
+      scrollChatToBottom();
       //inputMessage.value = null;
     })
     .listenForWhisper("start-typing", (event) => {
@@ -203,10 +197,7 @@ const sendMessage = async () => {
   try {
     isSendingMessage.value = true;
     await sendChatMessage(props.user.id, userInput);
-    nextTick(() => {
-      messagesBoxPrivate.value.scrollTop =
-        messagesBoxPrivate.value?.scrollHeight;
-    });
+    scrollChatToBottom();
     inputMessage.value = null;
     channel.whisper("stop-typing");
   } catch (error) {
@@ -217,9 +208,7 @@ const sendMessage = async () => {
 };
 
 watch(messages, (current, old) => {
-  nextTick(() => {
-    messagesBoxPrivate.value.scrollTop = messagesBoxPrivate.value.scrollHeight;
-  });
+  scrollChatToBottom();
 });
 
 const typing = () => {
@@ -230,6 +219,14 @@ const typing = () => {
       user: authUser.value.name,
     });
   }
+};
+
+const scrollChatToBottom = () => {
+  nextTick(() => {
+    if (messagesBoxPrivate.value)
+      messagesBoxPrivate.value.scrollTop =
+        messagesBoxPrivate.value.scrollHeight;
+  });
 };
 </script>
 <style scoped>

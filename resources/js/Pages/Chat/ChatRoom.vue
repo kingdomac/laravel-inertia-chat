@@ -103,7 +103,6 @@ watch(messages, (current, old) => {
 });
 
 const connecToChannels = () => {
-  // build channel name
   let channelName = "private.message.";
 
   onlineUsers.value.forEach((userElement) => {
@@ -127,34 +126,7 @@ const connecToChannels = () => {
         inputMessage.value = null;
       });
   });
-  //loop to connect
 };
-
-// const connecToChannel = (user) => {
-//   // build channel name
-//   let channelName = "private.message.";
-
-//  let subStr = `${parseInt(user.id)}.${authUser.value.id}`;
-//     if (authUser.value.id > user.id)
-//       subStr = `${authUser.value.id}.${parseInt(user.id)}`;
-//     Echo.join(channelName + subStr)
-
-//       .error((error) => {
-//         console.error(error);
-//       })
-//       .listen(".privateChat", (event) => {
-//         onlineUsers.value.map((element) => {
-//           if (
-//             element.id === event.user.id &&
-//             event.user.id !== selectedUser.value?.id
-//           )
-//             element.newMessages += 1;
-//         });
-
-//         inputMessage.value = null;
-//       });
-//   //loop to connect
-// };
 
 const openUserChat = (user) => {
   selectedUser.value = user;
