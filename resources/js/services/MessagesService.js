@@ -16,11 +16,19 @@ const markAsReadMessages = async (userId) => {
     }
 };
 
-const countNewMessages = async (userIdArray) => {
+const countUsersNewMessages = async (userIdArray) => {
     try {
-        return await axios.post("/count-new-messages", {
+        return await axios.post("/count-users-new-messages", {
             usersId: userIdArray,
         });
+    } catch (error) {
+        throw error;
+    }
+};
+
+const countUserNewMessages = async (userId) => {
+    try {
+        return await axios.get(`/count-user-new-messages/${userId}`);
     } catch (error) {
         throw error;
     }
@@ -46,7 +54,8 @@ const sendChatMessage = async (userId, message) => {
 export {
     broadcastRoomMessage,
     markAsReadMessages,
-    countNewMessages,
+    countUsersNewMessages,
     getChatMessages,
     sendChatMessage,
+    countUserNewMessages,
 };

@@ -145,7 +145,7 @@ const getMessages = async () => {
     messages.value = result;
     nextTick(() => {
       messagesBoxPrivate.value.scrollTop =
-        messagesBoxPrivate.value.scrollHeight;
+        messagesBoxPrivate.value?.scrollHeight;
     });
   } catch (error) {}
 };
@@ -185,7 +185,7 @@ onMounted(() => {
       messages.value.push(response);
       nextTick(() => {
         messagesBoxPrivate.value.scrollTop =
-          messagesBoxPrivate.value.scrollHeight;
+          messagesBoxPrivate.value?.scrollHeight;
       });
       //inputMessage.value = null;
     })
@@ -203,7 +203,10 @@ const sendMessage = async () => {
   try {
     isSendingMessage.value = true;
     await sendChatMessage(props.user.id, userInput);
-    messagesBoxPrivate.value.scrollTop = messagesBoxPrivate.value?.scrollHeight;
+    nextTick(() => {
+      messagesBoxPrivate.value.scrollTop =
+        messagesBoxPrivate.value?.scrollHeight;
+    });
     inputMessage.value = null;
     channel.whisper("stop-typing");
   } catch (error) {

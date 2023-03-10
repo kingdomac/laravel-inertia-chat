@@ -30,7 +30,7 @@ class MessageController extends Controller
         return response()->json();
     }
 
-    public function countUserNewMessages(): JsonResponse
+    public function countUsersNewMessages(): JsonResponse
     {
         $users =  User::query()->withCount(['messages' => function (Builder $query) {
             $query->where('to_u', auth()->id())
@@ -40,5 +40,16 @@ class MessageController extends Controller
             ->get()->pluck('messages_count', 'id');
 
         return Response::json($users);
+    }
+
+    public function countUserNewMessages($userId)
+    {
+        $user = User::query()->withCount(['messages' => function (Builder $query) {
+            $query->where('to_u', auth()->id())
+                ->where('is_read', false);
+        }])
+            ->where('id', $userId)
+            ->get()->pluck('messages_count', 'id');
+        return Response::json($user);
     }
 }

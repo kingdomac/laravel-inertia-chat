@@ -7,7 +7,8 @@ import PrivatChat from "@/Components/PrivatChat.vue";
 import {
   broadcastRoomMessage,
   markAsReadMessages,
-  countNewMessages,
+  countUsersNewMessages,
+  countUserNewMessages,
 } from "@/services/MessagesService";
 
 const inputMessage = ref("");
@@ -36,7 +37,7 @@ const connectToPresenceChannel = () => {
         users = users.filter((user) => user.id !== authUser.value.id);
         const onlineUsersId = users.map((element) => element.id);
 
-        const response = await countNewMessages(onlineUsersId);
+        const response = await countUsersNewMessages(onlineUsersId);
         users.map(
           (element) => (element.newMessages = response.data[element.id])
         );
@@ -44,13 +45,17 @@ const connectToPresenceChannel = () => {
         connecToChannels();
       } catch (error) {}
     })
-    .joining((user) => {
-      onlineUsers.value.push(user);
-      messages.push({
-        user: user,
-        message: "<span class='text-blue-500'>has joined the room</span>",
-        date: moment(new Date()).format("ddd MM/YY, hh:mm:ss a"),
-      });
+    .joining(async (user) => {
+      try {
+        const response = await countUserNewMessages(user.id);
+        user.newMessages = response.data[user.id];
+        onlineUsers.value.push(user);
+        messages.push({
+          user: user,
+          message: "<span class='text-blue-500'>has joined the room</span>",
+          date: moment(new Date()).format("ddd MM/YY, hh:mm:ss a"),
+        });
+      } catch (error) {}
     })
     .leaving((user) => {
       const newOnlineUsers = onlineUsers.value.filter(
@@ -124,6 +129,32 @@ const connecToChannels = () => {
   });
   //loop to connect
 };
+
+// const connecToChannel = (user) => {
+//   // build channel name
+//   let channelName = "private.message.";
+
+//  let subStr = `${parseInt(user.id)}.${authUser.value.id}`;
+//     if (authUser.value.id > user.id)
+//       subStr = `${authUser.value.id}.${parseInt(user.id)}`;
+//     Echo.join(channelName + subStr)
+
+//       .error((error) => {
+//         console.error(error);
+//       })
+//       .listen(".privateChat", (event) => {
+//         onlineUsers.value.map((element) => {
+//           if (
+//             element.id === event.user.id &&
+//             event.user.id !== selectedUser.value?.id
+//           )
+//             element.newMessages += 1;
+//         });
+
+//         inputMessage.value = null;
+//       });
+//   //loop to connect
+// };
 
 const openUserChat = (user) => {
   selectedUser.value = user;
