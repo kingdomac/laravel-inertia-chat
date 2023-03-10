@@ -354,7 +354,7 @@ const closeUserChat = (user) => {
                   class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
                 />
                 <div
-                  class="absolute z-10 right-0 items-center inset-y-0 hidden sm:flex"
+                  class="absolute z-0 right-0 items-center inset-y-0 hidden sm:flex"
                 >
                   <!-- <button
                     type="button"
