@@ -7,6 +7,7 @@ use App\Models\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rule;
 
 class MessageController extends Controller
 {
@@ -21,17 +22,23 @@ class MessageController extends Controller
         );
     }
 
-    public function markeMessagesAsRead(): JsonResponse
+    public function markeMessagesAsRead(User $user): JsonResponse
     {
         Message::query()
-            ->where('from_u', request('user'))
+            ->where('from_u', $user->id)
             ->where('to_u', auth()->id())
             ->update(['is_read' => true]);
         return response()->json();
     }
 
-    public function countUsersNewMessages(): JsonResponse
+    public function countUsersNewMessages()
     {
+        request()->validate([
+            'usersId' => ['required', 'array'],
+            'usersId.*' =>
+            [Rule::exists('users', 'id')],
+        ]);
+
         $users =  User::query()->withCount(['messages' => function (Builder $query) {
             $query->where('to_u', auth()->id())
                 ->where('is_read', false);
@@ -42,13 +49,13 @@ class MessageController extends Controller
         return Response::json($users);
     }
 
-    public function countUserNewMessages($userId)
+    public function countUserNewMessages(User $user)
     {
         $user = User::query()->withCount(['messages' => function (Builder $query) {
             $query->where('to_u', auth()->id())
                 ->where('is_read', false);
         }])
-            ->where('id', $userId)
+            ->where('id', $user->id)
             ->get()->pluck('messages_count', 'id');
         return Response::json($user);
     }

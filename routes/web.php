@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/messages/{user}',  'getUserMessages');
         Route::put('/mark-as-read-messages/{user}', 'markeMessagesAsRead');
         Route::post('/count-users-new-messages', 'countUsersNewMessages');
-        Route::get('/count-user-new-messages/{userId}', 'countUserNewMessages');
+        Route::get('/count-user-new-messages/{user}', 'countUserNewMessages');
     });
 
 
