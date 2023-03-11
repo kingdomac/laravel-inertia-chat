@@ -28,10 +28,11 @@ class MessageController extends Controller
             ->where('from_u', $user->id)
             ->where('to_u', auth()->id())
             ->update(['is_read' => true]);
+
         return response()->json();
     }
 
-    public function countUsersNewMessages()
+    public function countUsersNewMessages(): JsonResponse
     {
         request()->validate([
             'usersId' => ['required', 'array'],
@@ -49,7 +50,7 @@ class MessageController extends Controller
         return Response::json($users);
     }
 
-    public function countUserNewMessages(User $user)
+    public function countUserNewMessages(User $user): JsonResponse
     {
         $user = User::query()->withCount(['messages' => function (Builder $query) {
             $query->where('to_u', auth()->id())

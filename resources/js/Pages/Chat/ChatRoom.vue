@@ -199,11 +199,11 @@ const closeUserChat = (user) => {
                     <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
                   </svg>
                 </span>
-                <img
+                <!-- <img
                   src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
                   alt=""
                   class="w-10 sm:w-16 h-10 sm:h-16 rounded-full"
-                />
+                /> -->
               </div>
               <div class="flex flex-col leading-tight">
                 <div class="text-2xl mt-1 flex items-center">
@@ -297,6 +297,7 @@ const closeUserChat = (user) => {
                       >
                         {{ message.user.name }}
                       </div>
+                      <div v-else>Me</div>
                       <div class="text-gray-400 text-xs mb-1">
                         {{ message.date }}
                       </div>
@@ -311,11 +312,11 @@ const closeUserChat = (user) => {
                       ></span>
                     </div>
                   </div>
-                  <img
+                  <!-- <img
                     src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
                     alt="My profile"
                     class="w-6 h-6 rounded-full order-1"
-                  />
+                  /> -->
                 </div>
               </div>
             </div>
