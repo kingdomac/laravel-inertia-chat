@@ -18,7 +18,7 @@ class BroadCastController extends Controller
         ChatRoomEvent::dispatch(request('message'));
     }
 
-    public function broadcastOneToOneMsg()
+    public function broadcastOneToOneMsg(): void
     {
         request()->validate([
             'user' => ['required', 'integer', Rule::exists('users', 'id')],
